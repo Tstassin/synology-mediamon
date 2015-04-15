@@ -111,6 +111,8 @@ class EventHandler(pyinotify.ProcessEvent):
                 return False
         if filename.find("@eaDir") > 0:
             return False
+        if filename.find(".sync") > 0:
+            return False
         return True
 
 handler = EventHandler()
