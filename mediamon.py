@@ -26,7 +26,7 @@ log("Starting")
 
 signal.signal(signal.SIGTERM, signal_handler)
 
-watched_paths = ["/volume1/music", "/volume1/photo", "/volume1/video"]
+watched_paths = ["/volume1/testindex"]
 
 allowed_exts = {
     "mp3",
