@@ -29,12 +29,6 @@ signal.signal(signal.SIGTERM, signal_handler)
 watched_paths = ["/volume1/music", "/volume1/photo", "/volume1/video"]
 
 allowed_exts = {
-    "jpg",
-    "jpeg",
-    "png",
-    "tga",
-    "gif",
-    "bmp",
     "mp3",
     "flac",
     "aac",
@@ -42,8 +36,10 @@ allowed_exts = {
     "ogg",
     "ogv",
     "mp4",
-    "avi",
-    "m4v",
+    "m4a",
+    "alac",
+    "aiff",
+    "wav"
 }
 
 wm = pyinotify.WatchManager()
