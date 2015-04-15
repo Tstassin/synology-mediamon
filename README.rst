@@ -3,7 +3,7 @@ MediaMon
 
 File monitor and auto-indexer for Synology DiskStation NAS.
 
-I'm using this on a DS213j, but I expect it may work on other models as well.
+I'm using this on a DS215j, it's a custom music-oriented version with specific folders to watch.
 
 
 Usage
@@ -11,29 +11,32 @@ Usage
 
 1. Install Python from the DiskStation package manager.
 
-2. SSH into your DiskStation as root (e.g. ``ssh root@192.168.1.20`` -- use the
+2. Edit mediamon.py ``watched_paths`` variable with the folders you want to keep indexed by synology-mediamon
+
+3. Edit mediamon.py ``allowed_exts`` variable with the extensions you want to keep indexed by synology-mediamon
+
+4. SSH into your DiskStation as root (e.g. ``ssh root@192.168.1.20`` -- use the
    right IP address for your DiskStation) and install pyinotify::
 
     cd /root/
-    wget https://pypi.python.org/packages/source/p/pyinotify/pyinotify-0.9.4.tar.gz
-    tar -xzvf pyinotify-0.9.4.tar.gz
-    cd pyinotify-0.9.4/
+    wget https://pypi.python.org/packages/source/p/pyinotify/pyinotify-0.9.5.tar.gz
+    tar -xzvf pyinotify-0.9.5.tar.gz
+    cd pyinotify-0.9.5/
     python setup.py install
 
-3. Copy ``mediamon.py`` to the DiskStation's ``/root/`` directory (``scp
+5. Copy ``mediamon.py`` to the DiskStation's ``/root/`` directory (``scp
    mediamon.py root@192.168.1.20:/root/``).
 
-4. Copy ``S99mediamon.sh`` to the DiskStation's ``/usr/syno/etc/rc.d/``
+6. Copy ``S99mediamon.sh`` to the DiskStation's ``/usr/syno/etc/rc.d/``
    directory (``scp S99mediamon.sh
    root@192.168.1.20:/usr/syno/etc/rc.d/``).
 
-5. SSH into the DiskStation again and run ``chmod 755 /usr/syno/etc/rc.d/S99mediamon.sh``,
+7. SSH into the DiskStation again and run ``chmod 755 /usr/syno/etc/rc.d/S99mediamon.sh``,
    then ``/usr/syno/etc/rc.d/S99mediamon.sh start`` to start up the monitor.
 
-6. Add some media files to ``/volume1/photo``, ``/volume1/music``, or
-   ``/volume1/video``, and check the log at ``/var/log/mediamon.log`` to verify
-   that it's working. You should see a ``synoindex -a`` entry for each added
-   file.
+8. Add some media files to some folder you specified in the watched_paths variable, and check the log at 
+   ``/var/log/mediamon.log`` to verify that it's working. You should see a ``synoindex -a`` entry for each 
+   added file.
 
 
 Caveats
@@ -51,6 +54,4 @@ Suggestions, improvements, bug reports or pull requests welcome!
 Credits
 -------
 
-Based on `a blog post`_.
-
-.. _a blog post: https://codesourcery.wordpress.com/2012/11/29/more-on-the-synology-nas-automatically-indexing-new-files/
+Based on github.com/carljm/synology-mediamon
