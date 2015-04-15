@@ -3,7 +3,8 @@ MediaMon
 
 File monitor and auto-indexer for Synology DiskStation NAS.
 
-I'm using this on a DS215j, it's a custom music-oriented version with specific folders to watch.
+I'm using this on a DS215j
+It's a custom music-oriented version of the media indexer to work with BTSync folders.
 
 
 Usage
