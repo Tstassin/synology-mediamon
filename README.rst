@@ -43,7 +43,7 @@ Usage
 Caveats
 -------
 
-I've noticed I have to repeat steps 2-5 after any DSM upgrade. There may be a
+I've noticed I have to repeat steps 4-7 after any DSM upgrade. There may be a
 way to avoid this by placing files in some other location that isn't wiped out
 by DSM upgrades, but so far I haven't looked into it. I don't think
 ``S99mediamon.sh`` would work to restart the monitor after reboot if placed
