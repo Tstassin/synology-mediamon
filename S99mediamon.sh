@@ -1,10 +1,10 @@
 #!/bin/sh
-# /usr/local/etc/rc.d/S99mediamon.sh
+# /usr/syno/etc/rc.d/S99mediamon.sh
 
 case "$1" in
   start|"")
     #start the monitoring daemon
-    python /usr/local/mediamon.py
+    python /root/mediamon.py
     ;;
   restart|reload|force-reload)
     echo "Error: argument '$1' not supported" >&2
