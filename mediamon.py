@@ -34,12 +34,12 @@ allowed_exts = {
     "aac",
     "wma",
     "ogg",
-    "ogv",
     "mp4",
     "m4a",
     "alac",
     "aiff",
     "wav",
+    "alac",
 }
 
 wm = pyinotify.WatchManager()
@@ -90,7 +90,7 @@ class EventHandler(pyinotify.ProcessEvent):
             self.modified_files.add(event.pathname)
 
     def process_IN_CLOSE_WRITE(self, event):
-        # ignore close_write unlesss the file has previously been modified.
+        # ignore close_write unless the file has previously been modified.
         if (event.pathname in self.modified_files):
             self.do_index_command(event, "-a")
 
@@ -109,8 +109,10 @@ class EventHandler(pyinotify.ProcessEvent):
             ext = os.path.splitext(filename)[1][1:].lower()
             if ext not in allowed_exts:
                 return False
+        # Ignore "@eaDir" folders
         if filename.find("@eaDir") > 0:
             return False
+        # Ignore ".sync" folders
         if filename.find(".sync") > 0:
             return False
         return True
