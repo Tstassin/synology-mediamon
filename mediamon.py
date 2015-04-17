@@ -39,7 +39,7 @@ allowed_exts = {
     "m4a",
     "alac",
     "aiff",
-    "wav"
+    "wav",
 }
 
 wm = pyinotify.WatchManager()
