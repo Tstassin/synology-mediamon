@@ -26,7 +26,7 @@ log("Starting")
 
 signal.signal(signal.SIGTERM, signal_handler)
 
-watched_paths = ["/volume1/testindex"]
+watched_paths = ["/volume1/BTMusic"]
 
 allowed_exts = {
     "mp3",
@@ -116,14 +116,20 @@ class EventHandler(pyinotify.ProcessEvent):
         if filename.find(".sync") > 0:
             return False
         return True
-
+		
 handler = EventHandler()
 notifier = pyinotify.Notifier(wm, handler)
+
+# Exclude @eaDir/ and .sync/ folders from watches 
+excl_lst = ['.*\/\.sync.*', '.*\/@eaDir.*']
+excl = pyinotify.ExcludeFilter(excl_lst)
+
 wdd = wm.add_watch(
     watched_paths,
     mask,
     rec=True,
     auto_add=True,
+    exclude_filter=excl
 )
 
 try:
