@@ -11,13 +11,10 @@ It works (normally) across DSM Updates.
 Files
 -----
 
-README.rst : This readme
-
-mediamon.cfg : Personal user settings
-
-mediamon.py : Media monitor "engine"
-
-S99mediamon.sh : Media monitor daemon start/stop
+- README.rst : This readme
+- mediamon.cfg : Personal user settings
+- mediamon.py : Media monitor "engine"
+- S99mediamon.sh : Media monitor daemon start/stop
 
 Usage - First Installation
 --------------------------
