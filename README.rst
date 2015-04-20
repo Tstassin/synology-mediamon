@@ -4,16 +4,22 @@ MediaMon
 Music folders monitor and auto-indexer for Synology DiskStation NAS.
 
 I'm using this on a DS215j.
+
 It's a custom music-oriented version of the media indexer to work with BTSync folders.
+
 It works as a daemon, install it and it's done.
+
 It works (normally) across DSM Updates.
 
 Files
 -----
 
 README.rst : This readme
+
 mediamon.cfg : Personal user settings
+
 mediamon.py : Media monitor "engine"
+
 S99mediamon.sh : Media monitor daemon start/stop
 
 Usage - First Installation
