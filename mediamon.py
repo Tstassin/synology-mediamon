@@ -1,46 +1,34 @@
-# /root/mediamon.py
+# /usr/local/mediamon.py
 from datetime import datetime
 import os.path
 import sys
 from subprocess import call
 import signal
-
+import ConfigParser
 import pyinotify
 
 
 log_file = open("/var/log/mediamon.log", "a")
-
 
 def log(text):
     dt = datetime.utcnow().isoformat()
     log_file.write(dt + ' - ' + text + "\n")
     log_file.flush()
 
-
 def signal_handler(signal, frame):
     log("Exiting")
     sys.exit(0)
-
 
 log("Starting")
 
 signal.signal(signal.SIGTERM, signal_handler)
 
-watched_paths = ["/volume1/BTMusic"]
+Config = ConfigParser.ConfigParser()
+Config.readfp(open('/usr/local/mediamon.cfg', 'r'))
 
-allowed_exts = {
-    "mp3",
-    "flac",
-    "aac",
-    "wma",
-    "ogg",
-    "mp4",
-    "m4a",
-    "alac",
-    "aiff",
-    "wav",
-    "alac",
-}
+watched_paths = [path for key, path in Config.items('watchfolders')]
+allowed_exts = list(filter(None, (x.strip() for x in Config.get('allowedextensions','exts').splitlines())))
+excl_lst = [regexp for key, regexp in Config.items('exclude')]
 
 wm = pyinotify.WatchManager()
 mask = (
@@ -120,16 +108,12 @@ class EventHandler(pyinotify.ProcessEvent):
 handler = EventHandler()
 notifier = pyinotify.Notifier(wm, handler)
 
-# Exclude @eaDir/ and .sync/ folders from watches 
-excl_lst = ['.*\/\.sync.*', '.*\/@eaDir.*']
-excl = pyinotify.ExcludeFilter(excl_lst)
-
 wdd = wm.add_watch(
     watched_paths,
     mask,
     rec=True,
     auto_add=True,
-    exclude_filter=excl
+    exclude_filter=pyinotify.ExcludeFilter(excl_lst)
 )
 
 try:
