@@ -90,7 +90,7 @@ class EventHandler(pyinotify.ProcessEvent):
             call(["synoindex", index_argument, event.pathname])
 
             if index_argument == "-A":
-                call(["php", "/volume1/web/TweetAlbum/tweetnewalbum.php", event.name])
+                call(["php", "/volume1/web/TweetAlbum/tweetnewalbum.php", "%s (%s)" % (event.name, event.pathname)])
                 log("Tweet %s %s" % (event.name, event.pathname))
 
             self.modified_files.discard(event.pathname)
