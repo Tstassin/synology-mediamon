@@ -1,10 +1,12 @@
 # /usr/local/mediamon.py
+# Location /usr/local/mediamon/mediamon.py
+
 from datetime import datetime
 import os.path
 import sys
 from subprocess import call
 import signal
-import ConfigParser
+import configparser
 import pyinotify
 
 
@@ -23,7 +25,7 @@ log("Starting")
 
 signal.signal(signal.SIGTERM, signal_handler)
 
-Config = ConfigParser.ConfigParser()
+Config = configparser.ConfigParser()
 Config.readfp(open('/usr/local/mediamon.cfg', 'r'))
 
 watched_paths = [path for key, path in Config.items('watchfolders')]
@@ -86,11 +88,11 @@ class EventHandler(pyinotify.ProcessEvent):
         if self.is_allowed_path(event.pathname, event.dir):
             log("synoindex %s %s" % (index_argument, event.pathname))
             call(["synoindex", index_argument, event.pathname])
-            
+
             if index_argument == "-A":
-	    	call(["php", "/volume1/web/TweetAlbum/tweetnewalbum.php", event.name])
-            	log("Tweet %s %s" % (event.name, event.pathname))
-	    
+                call(["php", "/volume1/web/TweetAlbum/tweetnewalbum.php", event.name])
+                log("Tweet %s %s" % (event.name, event.pathname))
+
             self.modified_files.discard(event.pathname)
         else:
             log("%s is not an allowed path" % event.pathname)
@@ -101,14 +103,8 @@ class EventHandler(pyinotify.ProcessEvent):
             ext = os.path.splitext(filename)[1][1:].lower()
             if ext not in allowed_exts:
                 return False
-        # Ignore "@eaDir" folders
-        if filename.find("@eaDir") > 0:
-            return False
-        # Ignore ".sync" folders
-        if filename.find(".sync") > 0:
-            return False
         return True
-		
+
 handler = EventHandler()
 notifier = pyinotify.Notifier(wm, handler)
 
@@ -122,5 +118,5 @@ wdd = wm.add_watch(
 
 try:
     notifier.loop(daemonize=True, pid_file='/var/run/mediamon.pid')
-except pyinotify.NotifierError, err:
+except pyinotify.NotifierError as err:
     print >> sys.stderr, err
